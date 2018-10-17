@@ -34,11 +34,42 @@ def least_squares(y, tx):
   return w, loss
     
 def ridge_regression(y, tx, lambda_):
-  N = y.shape[0]
+  N = len(y)
   lhs = tx.T.dot(tx) + lambda_*2*N*np.eye(tx.shape[1])
   rhs = tx.T.dot(y)
   w = np.linalg.solve(lhs,rhs)
   loss = compute_MSE_loss(y,tx,w) + np.sum(np.sum(w**2))
   return w, loss
-    
+
+def logistic_prediction(tx, w):
+  z = np.dot(tx,w)
+  return 1/(1+np.exp(-z))
+                                            
+def logistic_gradient(tx, y, w):
+  pred = predict(tx,w)
+  return 1/len(y)*np.dot(tx.T,y-pred)
+                                            
+def logistic_loss(tx, y, w):
+  pred = logistic_prediction(tx,w)
+  cost1 = -y*np.log(pred)                                          
+  cost2 = (1-y)*np.log(1-pred)
+  return np.mean(cost1+cost2)
+                                            
+def logistic_regression(y, tx, initial_w, max_iters, gamma):
+ w = initial_w
+ for n_iter in range(max_iters):
+    grad_L = logistic_gradient(y,tx,w)
+    w = w - gamma * grad_L
+ loss = logistic_loss(y,tx,w)
+ return w, loss
+                                                                                      
+def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
+ w = initial_w
+ for n_iter in range(max_iters):
+    grad_L = logistic_gradient(y,tx,w) - lambda_*w
+    w = w - gamma * grad_L
+ loss = logistic_loss(y,tx,w) + np.sum(np.sum(w**2))
+ return w, loss
+                                            
+                                         
     
