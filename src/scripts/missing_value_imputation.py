@@ -39,8 +39,8 @@ for pattern in missing_features_set:
     train_x_split_pattern.append(pattern)
 
 # Perform least squares for every set to impute missing values
-# Todo: vilech übrprüefe obs würk ds full isch i index 0
 full_set = train_x_split[0]
+assert(np.all(full_set != -999)) # Verify that full_set doesn't have NA
 
 impute_fit = []
 imputed = [full_set]
@@ -56,14 +56,18 @@ for i in range(1, len(train_x_split)):
     present = (tmp[1, :] != -999).flatten()
     n_missing = missing.shape[0]
 
+    # Create intermediary tx, augment with 1
+    tx = full_set[:, present]
+    tx = np.c_[ np.ones(tx.shape[0]), tx ]
+
     # For every missing value, train least squares on full set with GD
-    fit = np.empty(n_feat-n_missing, n_missing)
+    fit = np.empty((tx.shape[1], n_missing))
     loss = np.empty(n_missing)
     for j in range(n_missing):
-        # TODO: Augment design matrix with 1 vector
-        fit[:, j], loss[j] = least_squares_GD(y = full_set[:, missing[j]],
-                                              tx= full_set[:, present],
-                                              initial_w = np.ones(n_feat-n_missing),
+        print(j)
+        fit[:, j], loss[j] = least_squares_SGD(y = full_set[:, missing[j]],
+                                              tx= tx,
+                                              initial_w = np.ones(tx.shape[1]),
                                               max_iters = 2000,
                                               gamma = .1)
 
