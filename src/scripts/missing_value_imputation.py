@@ -44,7 +44,7 @@ full_set = train_x_split[0]
 
 impute_fit = []
 imputed = [full_set]
-
+impute_loss = []
 
 for i in range(1, len(train_x_split)):
     print(i)
@@ -52,17 +52,27 @@ for i in range(1, len(train_x_split)):
     tmp = train_x_split[i]
 
     # Get indices of missing values
-    missing = tmp[1, :] == -999
-    present = tmp[1, :] != -999
+    missing = np.argwhere(tmp[1, :] == -999).flatten()
+    present = (tmp[1, :] != -999).flatten()
+    n_missing = missing.shape[0]
 
-    # Fit model based on set without missing values
-    # Todo: Doesnt work yet, dimension error in least squares function
-    fit = multiple_least_squares(y=full_set[:, missing],
-                                 tx=full_set[:, present])
+    # For every missing value, train least squares on full set with GD
+    fit = np.empty(n_feat-n_missing, n_missing)
+    loss = np.empty(n_missing)
+    for j in range(n_missing):
+        # TODO: Augment design matrix with 1 vector
+        fit[:, j], loss[j] = least_squares_GD(y = full_set[:, missing[j]],
+                                              tx= full_set[:, present],
+                                              initial_w = np.ones(n_feat-n_missing),
+                                              max_iters = 2000,
+                                              gamma = .1)
+
+    # Save fit and loss
     impute_fit.append(fit)
-    prediction = fit.dot(tmp[:, present])
+    impute_loss.append(loss)
 
     # Replace missing values with prediction
+    prediction = fit.dot(tmp[:, present])
     tmp[:, missing] = prediction
 
     imputed.append(tmp)
