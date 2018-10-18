@@ -1,8 +1,9 @@
 """Main file for executing the entire project"""
 
 # Header
-from helpers.proj1_helpers import *
+from methods.proj1_helpers import *
 
+#### OUTDATED!!!! ######
 
 # Body
 # Data loading
