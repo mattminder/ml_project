@@ -39,21 +39,26 @@ for pattern in missing_features_set:
     train_x_split_pattern.append(pattern)
 
 # Perform least squares for every set to impute missing values
+# Todo: vilech übrprüefe obs würk ds full isch i index 0
+full_set = train_x_split[0]
+
 impute_fit = []
-imputed = [train_x_split[0]]
+imputed = [full_set]
+
+
 for i in range(1, len(train_x_split)):
     print(i)
     # Current subset to be fitted
     tmp = train_x_split[i]
 
     # Get indices of missing values
-    missing = np.argwhere(tmp[1, :] == -999)
-    present = np.argwhere(tmp[1, :] != -999)
+    missing = tmp[1, :] == -999
+    present = tmp[1, :] != -999
 
     # Fit model based on set without missing values
     # Todo: Doesnt work yet, dimension error in least squares function
-    fit, loss = least_squares(y=train_x_split[0][:, missing],
-                              tx=train_x_split[0][:, present])
+    fit = multiple_least_squares(y=full_set[:, missing],
+                                 tx=full_set[:, present])
     impute_fit.append(fit)
     prediction = fit.dot(tmp[:, present])
 
