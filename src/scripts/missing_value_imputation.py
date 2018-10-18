@@ -60,6 +60,7 @@ for i in range(1, len(train_x_split)):
     fit = np.empty(n_feat-n_missing, n_missing)
     loss = np.empty(n_missing)
     for j in range(n_missing):
+        # TODO: Augment design matrix with 1 vector
         fit[:, j], loss[j] = least_squares_GD(y = full_set[:, missing[j]],
                                               tx= full_set[:, present],
                                               initial_w = np.ones(n_feat-n_missing),
