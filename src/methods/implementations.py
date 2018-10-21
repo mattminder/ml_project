@@ -23,13 +23,13 @@ def logistic_prediction(tx, w):
 def logistic_gradient(y, tx, w):
     "computes the gradient of the logistic regression"
     pred = logistic_prediction(tx,w)
-    return 1/len(y)*np.dot(tx.T,y-pred)
+    return -1/len(y)*np.dot(tx.T,y-pred)
                                             
 def logistic_loss(y, tx, w):
     "computes the loss of the logistic regression"
     pred = logistic_prediction(tx,w)
     cost1 = -y*np.log(pred)
-    cost2 = (1-y)*np.log(1-pred)
+    cost2 = -(1-y)*np.log(1-pred)
     return np.mean(cost1+cost2)
      
 
