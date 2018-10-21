@@ -99,7 +99,7 @@ for i in range(1, len(train_x_split)):
 
 
 
-
+# TODO: BIND DUMMY VARIABLES WITH ARRAY
 
 
 # test = load_csv_data("../../all/test.csv")
