@@ -31,6 +31,21 @@ missing_features = np.array(missing_features)
 
 print(str(len(missing_features_set)) + " different patterns of missing features.")
 
+
+# Create dummy variables for each pattern of missing observations
+missing_dummy = np.empty((n_obs, len(missing_features_set)))
+missing_dummy_names = []
+ix = 0
+for pattern in missing_features_set:
+    missing_dummy[:, ix] = missing_features == pattern
+    missing_dummy_names.append(pattern)
+    ix += 1
+
+# Remove dummy variables for complete, fully determined by other dummies
+missing_dummy = np.delete(missing_dummy, 0, axis=1)
+del missing_dummy_names[0]
+
+
 # Sort cells according to missing pattern
 train_x_split = []
 train_x_split_pattern = []
