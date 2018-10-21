@@ -73,7 +73,7 @@ def ridge_regression(y, tx, lambda_):
     lhs = tx.T.dot(tx) + lambda_*2*N*np.eye(tx.shape[1])
     rhs = tx.T.dot(y)
     w = np.linalg.solve(lhs,rhs)
-    loss = linear_loss(y,tx,w) + np.sum(np.sum(w**2))
+    loss = linear_loss(y,tx,w) + lambda_*np.sum(np.sum(w**2))
     return w, loss
 
 
@@ -83,7 +83,7 @@ def logistic_regression(y, tx, initial_w, max_iters, gamma):
     for n_iter in range(max_iters):
         shuffle_indices = np.random.permutation(np.arange(len(y)))
         for i in shuffle_indices:
-            grad_L = 1/len(y)*logistic_gradient([y[i]], np.expand_dims(tx[i,:], axis=0),w)
+            grad_L = 1/len(y)*logistic_gradient([y[i]], np.expand_dims(tx[i,:], axis=0),w) #division by len(y) to have small steps
             w = w - gamma * grad_L
     loss = logistic_loss(y,tx,w)
     return w, loss
@@ -97,7 +97,7 @@ def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
         for i in shuffle_indices:
             grad_L = 1/len(y)*(logistic_gradient([y[i]], np.expand_dims(tx[i,:], axis=0)) - lambda_*w)
             w = w - gamma * grad_L
-    loss = logistic_loss(y,tx,w) + np.sum(np.sum(w**2))
+    loss = logistic_loss(y,tx,w) + lambda_/2*np.sum(np.sum(w**2))
     return w, loss
 
 
