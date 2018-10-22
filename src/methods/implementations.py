@@ -95,7 +95,7 @@ def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
     for n_iter in range(max_iters):
         shuffle_indices = np.random.permutation(np.arange(len(y)))
         for i in shuffle_indices:
-            grad_L = 1/len(y)*(logistic_gradient([y[i]], np.expand_dims(tx[i,:], axis=0)) - lambda_*w)
+            grad_L = 1/len(y)*(logistic_gradient([y[i]], np.expand_dims(tx[i,:], axis=0),w) - lambda_*w)
             w = w - gamma * grad_L
     loss = logistic_loss(y,tx,w) + lambda_/2*np.sum(np.sum(w**2))
     return w, loss
