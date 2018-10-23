@@ -17,10 +17,10 @@ from methods.implementations import reg_logistic_regression, logistic_prediction
 from methods.proj1_helpers import create_csv_submission
 
 #Load data as saved after missing_value_imputation
-#tx_tr = load(...)
-#y_tr = load(...) #As 0/1, not as -1/1
+#tx_tr = np.load("../../imputed/final_plus_dummy.npy")
+#y = np.load("../../imputed/y_train.npy")
+#y[np.where(y == -1)] = 0 #Want 0/1 data for logistic regression, not -1/1
 #tx_te = load(...)
-#y_te = load(...)
 #ids = load(...)
 tx_tr = np.array([[1,2,3],[1,3,1],[1,0,0],[1,8,4],[1,0,3],[1,6,2]]) #Random values to test
 y_tr = np.array([0,1,1,0,0,0])
@@ -36,8 +36,9 @@ raise NotImplementedError
 n_decay = 11
 n_iter = 100
 w = np.zeros(tx_tr.shape[1])
-for gamma in np.logspace(0,-10,n_decay):
+for i, gamma in enumerate(np.logspace(0,-10,n_decay)):
     w, loss = reg_logistic_regression(y_tr, tx_tr, lambda_, w, n_iter, gamma)
+    print("Epoch: %4d, Gamma: %3.1e, Loss: %3.3f" % (n_iter*i, gamma, loss))
 
 #Prediction for test data
 y_pred = np.round(logistic_prediction(tx_te,w))

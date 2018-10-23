@@ -131,6 +131,7 @@ final_plus_dummy = np.column_stack((final, missing_dummy))
 
 # Save
 np.save("../../imputed/final_plus_dummy.npy", final_plus_dummy)
+np.save("../../imputed/y_train.npy", train_y)
 
 with open("../../imputed/impute_loss_pickle.txt", "wb") as fp:
     pickle.dump(impute_loss, fp)
@@ -139,7 +140,7 @@ with open("../../imputed/impute_fit_pickle.txt", "wb") as fp:
 with open("../../imputed/missing_dummy_names.txt", "wb") as fp:
     pickle.dump(missing_dummy_names, fp)
 
-with open("../../imputed/loss_pickle.txt", "rb") as fp:   # Unpickling
-    b = pickle.load(fp)
+#with open("../../imputed/loss_pickle.txt", "rb") as fp:   # Unpickling
+#    b = pickle.load(fp)
 
 # test = load_csv_data("../../all/test.csv")
