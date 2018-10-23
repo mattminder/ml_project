@@ -17,7 +17,7 @@ def normalize_data(data):
     tmp = (data-features_mean)/features_stdev
     #tmp[np.isnan(tmp)] = -999
 
-    return tmp
+    return tmp, features_mean, features_stdev
         
     
     
