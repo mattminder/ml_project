@@ -9,7 +9,7 @@ import pickle
 
 # Global vars
 MISSING = -999
-MAX_ITERS = 200
+MAX_ITERS = 1000
 GAMMA = .1
 #--------------------------------------
 # SCRIPT
@@ -139,7 +139,7 @@ with open("../../imputed/impute_fit_pickle.txt", "wb") as fp:
 with open("../../imputed/missing_dummy_names.txt", "wb") as fp:
     pickle.dump(missing_dummy_names, fp)
 
-#with open("../../imputed/loss_pickle.txt", "rb") as fp:   # Unpickling
-#    b = pickle.load(fp)
+with open("../../imputed/loss_pickle.txt", "rb") as fp:   # Unpickling
+    b = pickle.load(fp)
 
 # test = load_csv_data("../../all/test.csv")
