@@ -1,0 +1,34 @@
+Cross validation
+****************
+n_batches = 5
+initial_w = np.zeros([tx.shape[1]])
+max_iter = 10
+gamma = 0.1
+
+Output:
+*******
+Lambda: 1.0e-05, Loss: 0.784, Accuracy: 62.830%
+Lambda: 1.0e-04, Loss: 0.784, Accuracy: 64.800%
+Lambda: 1.0e-03, Loss: 0.858, Accuracy: 67.212%
+Lambda: 1.0e-02, Loss: 0.770, Accuracy: 59.810%
+Lambda: 1.0e-01, Loss: 0.804, Accuracy: 64.638%
+Lambda: 1.0e+00, Loss: 0.926, Accuracy: 64.374%
+..\methods\implementations.py:21: RuntimeWarning: overflow encountered in exp
+  return 1/(1+np.exp(-z))
+..\methods\implementations.py:31: RuntimeWarning: divide by zero encountered in log
+  cost1 = -y*np.log(pred)
+..\methods\implementations.py:31: RuntimeWarning: invalid value encountered in multiply
+  cost1 = -y*np.log(pred)
+..\methods\implementations.py:32: RuntimeWarning: divide by zero encountered in log
+  cost2 = -(1-y)*np.log(1-pred)
+..\methods\implementations.py:32: RuntimeWarning: invalid value encountered in multiply
+  cost2 = -(1-y)*np.log(1-pred)
+Lambda: 1.0e+01, Loss: nan, Accuracy: 72.553%
+Lambda: 1.0e+02, Loss: nan, Accuracy: 72.342%
+..\methods\implementations.py:98: RuntimeWarning: overflow encountered in multiply
+  grad_L = 1/len(y)*(logistic_gradient([y[i]], np.expand_dims(tx[i,:], axis=0),w) - lambda_*w)
+Lambda: 1.0e+03, Loss: nan, Accuracy: 0.000%
+Lambda: 1.0e+04, Loss: nan, Accuracy: 0.000%
+Lambda: 1.0e+05, Loss: nan, Accuracy: 0.000%
+
+Best lambda: 1.000e+01, Accuracy: 72.553%
