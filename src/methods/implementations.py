@@ -1,6 +1,5 @@
 # Todo: TESTING!!!
 # Todo: Document
-# TODO: Divide by 1/len(y) on lines 55/89/101
 
 import numpy as np
 
@@ -50,10 +49,9 @@ def least_squares_SGD(y, tx, initial_w, max_iters, gamma):
     at a time"
     w = initial_w
     for n_iter in range(max_iters):
-        shuffle_indices = np.random.permutation(np.arange(len(y)))
-        for i in shuffle_indices:
-            grad_L = linear_gradient([y[i]], np.expand_dims(tx[i,:], axis=0),w)
-            w = w - gamma * grad_L
+        i = np.random.randint(len(y))
+        grad_L = linear_gradient([y[i]], np.expand_dims(tx[i,:], axis=0),w)
+        w = w - gamma * grad_L
     loss = linear_loss(y, tx, w)
     return w, loss
 
@@ -84,10 +82,9 @@ def logistic_regression(y, tx, initial_w, max_iters, gamma, verbose=False):
         if verbose & (n_iter % int(max_iters/20) == 0):
             print(str(int(n_iter / max_iters)*100) + "% Done")
 
-        shuffle_indices = np.random.permutation(np.arange(len(y)))
-        for i in shuffle_indices:
-            grad_L = logistic_gradient([y[i]], np.expand_dims(tx[i,:], axis=0),w)
-            w = w - gamma * grad_L
+        i = np.random.randint(len(y))
+        grad_L = logistic_gradient([y[i]], np.expand_dims(tx[i,:], axis=0),w)
+        w = w - gamma * grad_L
     loss = logistic_loss(y,tx,w)
     return w, loss
         
@@ -96,10 +93,9 @@ def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
     "computes weights of regularized (L2) logistic regression with SGD"
     w = initial_w
     for n_iter in range(max_iters):
-        shuffle_indices = np.random.permutation(np.arange(len(y)))
-        for i in shuffle_indices:
-            grad_L = logistic_gradient([y[i]], np.expand_dims(tx[i,:], axis=0),w) + lambda_*w
-            w = w - gamma * grad_L
+        i = np.random.randint(len(y))
+        grad_L = logistic_gradient([y[i]], np.expand_dims(tx[i,:], axis=0),w) + lambda_*w
+        w = w - gamma * grad_L
     loss = logistic_loss(y,tx,w) + lambda_/2*np.sum(np.sum(w**2))
     return w, loss
 
