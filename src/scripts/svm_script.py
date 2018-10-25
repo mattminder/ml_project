@@ -7,6 +7,12 @@ import numpy as np
 # Load data, augment with 1, convert result to 0/1
 tx = np.load("../../imputed/final_plus_dummy.npy")
 y = np.load("../../imputed/y_train.npy")
+tx = np.c_[np.ones(tx.shape[0]), tx]
+
+tx_toLog = np.log(tx[:, 0:29] + 20)
+tx_toLog_norm, features_mean, features_stdev = normalize_data(tx_toLog)
+tx = np.column_stack((tx, tx_toLog_norm))
+
 
 # Wasi so probiert ha a features:
 #tx = tx[:, 0:29]
