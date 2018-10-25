@@ -37,6 +37,7 @@ ind = ind.reshape(n_folds,-1)
 best_acc = 0
 initial_w = np.zeros([tx.shape[1]])
 for lambda_ in np.logspace(-5,5,11):
+    print(lambda_)
     acc_tot = 0 #reinitialize to 0
     loss_tot = 0
     for i in range(n_folds):
