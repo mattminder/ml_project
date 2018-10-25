@@ -1,6 +1,8 @@
 """Script for data loading and missing value imputation"""
 #--------------------------------------
 # HEADER
+import sys
+sys.path.append('../')
 from methods.implementations import *
 from methods.proj1_helpers import *
 from helpers.custom_helpers import *
