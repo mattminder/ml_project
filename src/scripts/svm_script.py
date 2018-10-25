@@ -26,11 +26,11 @@ tx = np.column_stack((tx, tx[:, 0:29]**2))
 # Max Acc = 61.616%
 
 
-lambdaVec = np.logspace(-10, 0, base = 10, num = 15)
+lambdaVec = np.logspace(-10, 0, base = 10, num = 50)
 best_acc, best_lambda = cross_validation(y, tx, 10, lambdaVec, "svm",
-                                         50000, 0.005)
+                                         200000, 0.001)
 
-final_fit = svm_classification(y, tx, best_lambda, np.zeros([tx.shape[1]]), 500000, 0.005)
+final_fit, loss = svm_classification(y, tx, best_lambda, np.zeros([tx.shape[1]]), 10000000, 0.0001)
 
 # Predict on test
 test = np.load("../../imputed/test_imputed.npy")
@@ -40,4 +40,5 @@ test = np.column_stack((test, test[:, 0:29]**2))
 test_preds = predict_svm_outcome(test, final_fit)
 create_csv_submission(range(350000, 350000+test_preds.size), test_preds,
                       "../../submission/SVM_on_imputed_w_squared.csv")
+
 
