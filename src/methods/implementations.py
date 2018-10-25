@@ -1,6 +1,6 @@
 # Todo: TESTING!!!
 # Todo: Document
-# Todo: Logistic regression formle überprüefe!!!
+# TODO: Divide by 1/len(y) on lines 55/89/101
 
 import numpy as np
 
@@ -52,7 +52,7 @@ def least_squares_SGD(y, tx, initial_w, max_iters, gamma):
     for n_iter in range(max_iters):
         shuffle_indices = np.random.permutation(np.arange(len(y)))
         for i in shuffle_indices:
-            grad_L = 1/len(y)*linear_gradient([y[i]], np.expand_dims(tx[i,:], axis=0),w)
+            grad_L = linear_gradient([y[i]], np.expand_dims(tx[i,:], axis=0),w)
             w = w - gamma * grad_L
     loss = linear_loss(y, tx, w)
     return w, loss
@@ -86,7 +86,7 @@ def logistic_regression(y, tx, initial_w, max_iters, gamma, verbose=False):
 
         shuffle_indices = np.random.permutation(np.arange(len(y)))
         for i in shuffle_indices:
-            grad_L = 1/len(y)*logistic_gradient([y[i]], np.expand_dims(tx[i,:], axis=0),w) #division by len(y) to have small steps
+            grad_L = logistic_gradient([y[i]], np.expand_dims(tx[i,:], axis=0),w)
             w = w - gamma * grad_L
     loss = logistic_loss(y,tx,w)
     return w, loss
@@ -98,7 +98,7 @@ def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
     for n_iter in range(max_iters):
         shuffle_indices = np.random.permutation(np.arange(len(y)))
         for i in shuffle_indices:
-            grad_L = 1/len(y)*(logistic_gradient([y[i]], np.expand_dims(tx[i,:], axis=0),w) - lambda_*w)
+            grad_L = logistic_gradient([y[i]], np.expand_dims(tx[i,:], axis=0),w) - lambda_*w
             w = w - gamma * grad_L
     loss = logistic_loss(y,tx,w) + lambda_/2*np.sum(np.sum(w**2))
     return w, loss

@@ -48,7 +48,7 @@ for lambda_ in np.logspace(-5,5,11):
         tx_val = tx[ind[i,:],:]
         y_val = y[ind[i]]
         #Train
-        w, loss = reg_logistic_regression(y_tr, tx_tr, lambda_, initial_w, 10, 0.1)
+        w, loss = reg_logistic_regression(y_tr, tx_tr, lambda_, initial_w, 10, 0.01)
         #Test on validation set
         pred = np.round(logistic_prediction(tx_val, w))
         accuracy = np.mean(y_val==pred)

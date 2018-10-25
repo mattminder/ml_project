@@ -20,13 +20,17 @@ from methods.proj1_helpers import create_csv_submission
 #tx_tr = np.load("../../imputed/final_plus_dummy.npy")
 #y = np.load("../../imputed/y_train.npy")
 #y[np.where(y == -1)] = 0 #Want 0/1 data for logistic regression, not -1/1
-#tx_te = load(...)
-#ids = load(...)
+#tx_te = np.load("../../imputed/test_imputed.npy")
+#ids = np.load("../../imputed/ids_test.npy")
 tx_tr = np.array([[1,2,3],[1,3,1],[1,0,0],[1,8,4],[1,0,3],[1,6,2]]) #Random values to test
 y_tr = np.array([0,1,1,0,0,0])
 tx_te = np.array([[1,3,2],[1,0,2]])
 ids = np.array([0,1])
 raise NotImplementedError
+
+# Augment data with all 1 vector
+tx_tr = np.c_[np.ones(tx_tr.shape[0]), tx_tr]
+tx_te = np.c_[np.ones(tx_te.shape[0]), tx_te]
 
 #Choose lambda according to best result of cross-validation
 lambda_ = 1e-5
