@@ -151,8 +151,8 @@ for i in range(1, len(train_x_split)):
     impute_loss.append(loss)
 
     # Replace missing values with prediction
-    tmp_aug_present = np.c_[ np.ones(tmp.shape[0]), tmp[:, present] ]
-    test_augmented = np.c_[ np.ones(tmp_test.shape[0]), tmp_test[:, present]]
+    tmp_aug_present = np.c_[np.ones(tmp.shape[0]), tmp[:, present]]
+    test_augmented = np.c_[np.ones(tmp_test.shape[0]), tmp_test[:, present]]
 
     prediction = tmp_aug_present.dot(fit)
     prediction_test = test_augmented.dot(fit)
@@ -163,8 +163,14 @@ for i in range(1, len(train_x_split)):
     imputed_test.append(tmp_test)
 
     # Replace missing values in final set
-    final[missing_features == train_x_split_pattern[i], :][:, missing] = prediction
-    final_test[missing_features_test == train_x_split_pattern[i], :][:, missing] = prediction_test
+    tmp_rep = final[missing_features == train_x_split_pattern[i], :]
+    tmp_rep[:, missing] = prediction
+    final[missing_features == train_x_split_pattern[i], :] = tmp_rep
+
+    tmp_rep = final_test[missing_features_test == train_x_split_pattern[i], :]
+    tmp_rep[:, missing] = prediction_test
+    final_test[missing_features_test == train_x_split_pattern[i], :] = tmp_rep
+
 
 
 

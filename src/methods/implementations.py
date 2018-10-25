@@ -77,10 +77,13 @@ def ridge_regression(y, tx, lambda_):
     return w, loss
 
 
-def logistic_regression(y, tx, initial_w, max_iters, gamma):
+def logistic_regression(y, tx, initial_w, max_iters, gamma, verbose=False):
     "computes weights of logistic regression with SGD"
     w = initial_w
     for n_iter in range(max_iters):
+        if verbose & (n_iter % int(max_iters/20) == 0):
+            print(str(int(n_iter / max_iters)*100) + "% Done")
+
         shuffle_indices = np.random.permutation(np.arange(len(y)))
         for i in shuffle_indices:
             grad_L = 1/len(y)*logistic_gradient([y[i]], np.expand_dims(tx[i,:], axis=0),w) #division by len(y) to have small steps

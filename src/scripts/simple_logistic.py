@@ -13,10 +13,12 @@ tx_augmented = np.c_[np.ones(tx.shape[0]), tx]
 
 # Fit model
 logFit, logLoss = logistic_regression(y,
-                                      tx,
-                                      initial_w=np.ones(tx.shape[1])*.1,
-                                      max_iters=1000,
+                                      tx_augmented,
+                                      initial_w=np.ones(tx_augmented.shape[1])*.001,
+                                      max_iters=100,
                                       gamma=.1)
+
+print("logLoss: " + str(logLoss))
 
 # Predict on Test Data
 test = np.load("../../imputed/test_imputed.npy")
