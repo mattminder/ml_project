@@ -8,7 +8,6 @@ Created on Mon Oct 22 11:48:32 2018
 #TODO: Load modified data (normalized and without missing values)
 #TODO: Get best lambda from cross_validation
 #TODO: Choose values (max_iter, gamma, ...)
-#TODO: Get ids for submission
 
 import numpy as np
 import sys
@@ -38,11 +37,11 @@ raise NotImplementedError
 
 #Train with a decay of gamma
 n_decay = 11
-n_iter = 100
+n_iter = 10
 w = np.zeros(tx_tr.shape[1])
-for i, gamma in enumerate(np.logspace(0,-10,n_decay)):
+for i, gamma in enumerate(np.logspace(-1,-6,n_decay)):
     w, loss = reg_logistic_regression(y_tr, tx_tr, lambda_, w, n_iter, gamma)
-    print("Epoch: %4d, Gamma: %3.1e, Loss: %3.3f" % (n_iter*i, gamma, loss))
+    print("Epoch: %3d/%3d, Gamma: %3.1e, Loss: %3.3f" % (n_iter*i, n_iter*n_decay, gamma, loss))
 
 #Prediction for test data
 y_pred = np.round(logistic_prediction(tx_te,w))

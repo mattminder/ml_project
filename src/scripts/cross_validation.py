@@ -27,11 +27,11 @@ y[np.where(y == -1)] = 0 #Want 0/1 data for logistic regression, not -1/1
 tx = np.c_[np.ones(tx.shape[0]), tx]
 
 #Divide data indices for cross-validation
-n_batches = 5
+n_folds = 5
 n_data = len(y)
 ind = np.random.permutation(n_data)
-ind = ind[0:n_batches*int(np.floor(n_data/n_batches))] #Remove additional data so that each batch has the same size
-ind = ind.reshape(n_batches,-1)
+ind = ind[0:n_folds*int(np.floor(n_data/n_folds))] #Remove additional data so that each batch has the same size
+ind = ind.reshape(n_folds,-1)
 
 #Optimize lambda
 best_acc = 0
@@ -39,7 +39,7 @@ initial_w = np.zeros([tx.shape[1]])
 for lambda_ in np.logspace(-5,5,11):
     acc_tot = 0 #reinitialize to 0
     loss_tot = 0
-    for i in range(n_batches):
+    for i in range(n_folds):
         #Divide data to train and val
         ind_tr = np.append(ind[:i,:],ind[i+1:,:])
         tx_tr = tx[ind_tr,:]
@@ -54,8 +54,8 @@ for lambda_ in np.logspace(-5,5,11):
         acc_tot += accuracy
         loss_tot += loss
     #Calculate average over all validation batches
-    acc = acc_tot/n_batches
-    loss_ = loss_tot/n_batches
+    acc = acc_tot/n_folds
+    loss_ = loss_tot/n_folds
     print("Lambda: %3.1e, Loss: %3.3f, Accuracy: %3.3f%%" % (lambda_, loss_, acc*100))
     #Update best values if current is better
     if acc > best_acc:
