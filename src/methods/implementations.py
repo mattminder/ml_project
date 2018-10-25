@@ -103,4 +103,30 @@ def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
     loss = logistic_loss(y,tx,w) + lambda_/2*np.sum(np.sum(w**2))
     return w, loss
 
+# Additional methods
+def hinge_loss_gradient(y, tx, w):
+    "Gradient of hinge loss function"
+    z = max(0,(1-np.dot(y,np.dot(tx,w))))
+    
+    if z==0:
+        hinge_grad = np.zeros(min(tx.shape))
+    else:
+        hinge_grad = -np.dot(y,tx)
+    return hinge_grad
 
+def svm_classification(y, tx, lambda_, initial_w, max_iters, gamma):
+    "Support vector machine classification"
+    w = initial_w
+    for n_iter in range(max_iters):
+        rand_idx = np.random.randint(0,len(y))
+        reg = lambda_*w
+        reg[0] = 0
+        grad_L = (hinge_loss_gradient(y[rand_idx], tx[rand_idx,:], w) + reg)
+        w = w - gamma * grad_L
+    loss = max(0,(1-np.dot(y,np.dot(tx,w))))
+    return w, loss
+
+def predict_svm_outcome(tx, w):
+    out = np.dot(tx,w)
+    return np.sign(np.round(out))
+    
