@@ -34,7 +34,7 @@ def cross_validation(y, tx, k, lambdas, method):
     #Optimize lambda
     best_acc = 0
     initial_w = np.zeros([tx.shape[1]])
-    for lambda_ in np.logspace(-4,-3,11):
+    for lambda_ in lambdas:
         acc_tot = 0 #reinitialize to 0
         loss_tot = 0
         for i in range(k):
