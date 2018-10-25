@@ -124,5 +124,5 @@ def svm_classification(y, tx, lambda_, initial_w, max_iters, gamma):
 
 def predict_svm_outcome(tx, w):
     out = np.dot(tx,w)
-    return np.sign(np.round(out))
+    return np.sign(out)
     

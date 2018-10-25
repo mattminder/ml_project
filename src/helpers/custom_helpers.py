@@ -21,7 +21,7 @@ def normalize_data(data):
 
     return tmp, features_mean, features_stdev
 
-def cross_validation(y, tx, k, lambdas, method):
+def cross_validation(y, tx, k, lambdas, method, n_iter, gamma):
     "Cross validation for method specified as a str in the method argument"
     method_mapping = {'logistic': (reg_logistic_regression,logistic_prediction),
                       'svm': (svm_classification, predict_svm_outcome)}
@@ -45,16 +45,16 @@ def cross_validation(y, tx, k, lambdas, method):
             tx_val = tx[ind[i,:],:]
             y_val = y[ind[i]]
             #Train
-            w, loss = method_mapping[method][0](y_tr, tx_tr, lambda_, initial_w, 50, 1)
+            w, loss = method_mapping[method][0](y_tr, tx_tr, lambda_, initial_w, n_iter, gamma)
             #Test on validation set
-            pred = method_mapping[method][1](tx_val,w)
+            pred = np.round(method_mapping[method][1](tx_val,w))
             accuracy = np.mean(y_val==pred)
             acc_tot += accuracy
             loss_tot += loss
         #Calculate average over all validation batches
         acc = acc_tot/k
         loss_ = loss_tot/k
-        print("Lambda: %3.1e, Loss: %3.3f, Accuracy: %3.3f%%" % (lambda_, loss_, acc*100))
+        print("Method: " + method +" Lambda: %3.1e, Loss: %3.3e, Accuracy: %3.3f%%" % (lambda_, loss_, acc*100))
         #Update best values if current is better
         if acc > best_acc:
             best_acc = acc
