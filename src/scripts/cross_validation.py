@@ -5,23 +5,26 @@ Created on Mon Oct 22 10:54:30 2018
 @author: Zora
 """
 
-#TODO: Load modified data (normalized and without missing values)
-#TODO: Choose values (n_batches, lambdas, max_iter, gamma, ...)
-#Maybe train gamma as well
-#Rerun with lambdas close to the best value found in first try
+# TODO: Load modified data (normalized and without missing values)
+# TODO: Choose values (n_batches, lambdas, max_iter, gamma, ...)
+# Maybe train gamma as well
+# Rerun with lambdas close to the best value found in first try
 
 import numpy as np
 import sys
 sys.path.append('../')
 from methods.implementations import reg_logistic_regression, logistic_prediction
 
-#Load data as saved after missing_value_imputation
+# Load data as saved after missing_value_imputation
 tx = np.load("../../imputed/final_plus_dummy.npy")
 y = np.load("../../imputed/y_train.npy")
 y[np.where(y == -1)] = 0 #Want 0/1 data for logistic regression, not -1/1
 #tx = np.array([[1,2,3],[1,3,1],[1,0,0],[1,8,4],[1,0,3],[1,6,2]]) #To test the methods
 #y = np.array([0,1,1,0,0,0])
 #raise NotImplementedError
+
+# Augment data with all 1 vector
+tx = np.c_[np.ones(tx.shape[0]), tx]
 
 #Divide data indices for cross-validation
 n_batches = 5
