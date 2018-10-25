@@ -186,6 +186,7 @@ np.save("../../imputed/final_plus_dummy.npy", final_plus_dummy)
 np.save("../../imputed/test_imputed.npy", test_plus_dummy)
 
 np.save("../../imputed/y_train.npy", train_y)
+np.save("../../imputed/ids_test.npy", test[2])
 
 with open("../../imputed/impute_loss_pickle.txt", "wb") as fp:
     pickle.dump(impute_loss, fp)
