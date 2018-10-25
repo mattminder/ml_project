@@ -2,6 +2,7 @@
 from methods.implementations import *
 from helpers.custom_helpers import *
 import numpy as np
+from helpers.proj1_helpers import *
 # -------------------------------
 # LOADING
 # Load data, augment with 1, convert result to 0/1
@@ -9,9 +10,11 @@ tx = np.load("../../imputed/final_plus_dummy.npy")
 y = np.load("../../imputed/y_train.npy")
 tx = np.c_[np.ones(tx.shape[0]), tx]
 
-tx_toLog = np.log(tx[:, 0:29] + 20)
-tx_toLog_norm, features_mean, features_stdev = normalize_data(tx_toLog)
-tx = np.column_stack((tx, tx_toLog_norm))
+tx = np.column_stack((tx, tx[:, 0:29]**2))
+
+#tx_toLog = np.log(tx[:, 0:29] + 20)
+#tx_toLog_norm, features_mean, features_stdev = normalize_data(tx_toLog)
+#tx = np.column_stack((tx, tx_toLog_norm))
 
 
 # Wasi so probiert ha a features:
@@ -23,6 +26,18 @@ tx = np.column_stack((tx, tx_toLog_norm))
 # Max Acc = 61.616%
 
 
-lambdaVec = np.logspace(2^-80, 2^0, base = 2, num = 81)
-best_acc, best_lambda = cross_validation(y, tx, 10, lambdaVec, "svm")
+lambdaVec = np.logspace(-10, 0, base = 10, num = 15)
+best_acc, best_lambda = cross_validation(y, tx, 10, lambdaVec, "svm",
+                                         50000, 0.005)
+
+final_fit = svm_classification(y, tx, best_lambda, np.zeros([tx.shape[1]]), 500000, 0.005)
+
+# Predict on test
+test = np.load("../../imputed/test_imputed.npy")
+test = np.c_[np.ones(test.shape[0]), test]
+test = np.column_stack((test, test[:, 0:29]**2))
+
+test_preds = predict_svm_outcome(test, final_fit)
+create_csv_submission(range(350000, 350000+test_preds.size), test_preds,
+                      "../../submission/SVM_on_imputed_w_squared.csv")
 
