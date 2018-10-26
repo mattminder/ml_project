@@ -17,6 +17,11 @@ def logistic_prediction(tx, w):
     "returns the logistic regression prediction based on the features and the \
     trained weights"
     z = np.dot(tx,w)
+    # Handle numerical problems (overflow and log(0))
+    minimum = -np.log(np.finfo(z.dtype).max)
+    maximum = -np.log(np.finfo(z.dtype).eps)
+    z[z < minimum] = minimum
+    z[z > maximum] = maximum
     return 1/(1+np.exp(-z))
 
 def logistic_gradient(y, tx, w):
