@@ -106,14 +106,22 @@ def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
 
 # Additional methods
 def hinge_loss_gradient(y, tx, w):
-    "Gradient of hinge loss function"
-    z = max(0,(1-np.dot(y,np.dot(tx,w))))
+    "Gradient of hinge loss function. Accepts either a single datapoint or a" 
+    "number of datapoints and returns average"
+    z = np.asarray(1-y*np.dot(tx,w))
+    z[z<0] = 0
     
-    if z==0:
-        hinge_grad = np.zeros(min(tx.shape))
-    else:
-        hinge_grad = -np.dot(y,tx)
-    return hinge_grad
+    hinge_grad = np.zeros(tx.shape)
+    nonZero = np.argwhere(z != 0).flatten()
+    if y.ndim == 0:
+        y = np.expand_dims(y, axis=0)
+    if tx.ndim == 1:
+        tx = np.expand_dims(tx, axis=0)
+    if hinge_grad.ndim == 1:
+        hinge_grad = np.expand_dims(hinge_grad, axis=0)
+    hinge_grad[nonZero,:] = -np.dot(y[nonZero],tx[nonZero,:])
+
+    return np.mean(hinge_grad, axis=0)
 
 def svm_classification(y, tx, lambda_, initial_w, max_iters, gamma):
     "Support vector machine classification"
@@ -122,10 +130,11 @@ def svm_classification(y, tx, lambda_, initial_w, max_iters, gamma):
         rand_idx = np.random.randint(0,len(y))
         reg = lambda_*w
         reg[0] = 0
-        grad_L = (hinge_loss_gradient(y[rand_idx], tx[rand_idx,:], w) + reg)
+        grad_L = (hinge_loss_gradient(np.asarray(y[rand_idx]), tx[rand_idx,:], w) + reg)
         w = w - gamma * grad_L
-    loss = max(0,(1-np.dot(y,np.dot(tx,w))))
-    return w, loss
+    loss = 1-y*np.dot(tx,w)
+    loss[np.asarray(loss)<0] = 0
+    return w, np.mean(loss)
 
 def predict_svm_outcome(tx, w):
     out = np.dot(tx,w)
