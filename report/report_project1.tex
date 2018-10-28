@@ -53,11 +53,15 @@ The feature vector $\boldsymbol{X}$ in the above equations contains a constant t
 \begin{equation}
 \boldsymbol{x}_{enh.} = [1 \hspace{2mm} \boldsymbol{x}_n \hspace{2mm} \boldsymbol{x}_n^2]
 \end{equation}
-
-%%% TODO: SVM description
+\par
+In addition to logistic regression, the collisions were classified with a Support Vector Machine (SVM) method. The basic idea behind SVM methods is to find a line that separates the datapoint into two classes. This can be achieved by minimizing a cost function based on hinge loss.
+\begin{equation}
+\mathcal{L}(\boldsymbol{w}) = C \sum_{n=1}^N max(0,1-y_n \boldsymbol{x}_n^T\boldsymbol{w}) + \frac{1}{2}||\boldsymbol{w}||^2 \hspace{5mm} y_i \in {-1,1}
+\end{equation}  
+If the output is predicted on the right side of the line, meaning that $sgn(y_i) = sgn(\boldsymbol{x}_n^T\boldsymbol{w})$, then that particular datapoint does not contribute to the loss. Points on the wrong side of the line or too close to the line contribute, however. Therefore, the gradient of the hinge loss $\nabla \mathcal{L}$ either takes the value $\boldsymbol{0}$ or $-y_n\boldsymbol{x_n}$ plus the contribution of the penalty function $\lambda \boldsymbol{w}$. This expression for the gradient was used in order to minimize the SVM cost function by stochastic gradient descent.  
 
 \section*{Results}
-The hyper-parameter $\lambda$ was tuned to minimize the number of misclassified collision events using the $K$-fold cross validation technique, where $K$ was chosen to be 10
+The models were evaluated and tuned using $K$-fold cross validation, where $K$ was chosen to be 10.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.45\textwidth]{accuracy_logistic.png}
@@ -66,6 +70,7 @@ The hyper-parameter $\lambda$ was tuned to minimize the number of misclassified 
 
 %%% TODO: same for SVM
 
+%%% Comment on: overfit or underfit
 \section*{Conclusion}
 
 %%% Bibliography
