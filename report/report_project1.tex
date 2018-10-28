@@ -2,6 +2,7 @@
 
 \usepackage{hyperref}
 \usepackage{graphicx}	% For figure environment
+\usepackage{amsmath}
 
 
 \begin{document}
@@ -19,7 +20,24 @@
 \end{abstract}
 
 \section*{Introduction}
+Collision events in the Large Hadron Collider at CERN do not create directly observable results. An essential part of elementary particles such as the Higgs boson therefore rely on classifying the collisions based on a number of variables that can be measured in the collider. 
+In our dataset, a vector containing 30 dimensions describes one collision event. A binary classification algorithm can be used to predict the presence of a Higgs boson based on this feature vector. The model is trained with data from collisons for which the existence of a Higgs boson is determined.
+Our classifications of the collision events consist of three main steps:
+\begin{enumerate}
+\item Imputation of missing data and normalization
+\item Mapping of the input to a feature space with a non-linear kernel
+\item Cross-validation of the binary classification methods
+\item Application of the best-fitting binary model and corresponding hyper parameter to the test data
+\end{enumerate}
 \section*{Methods}
+The raw dataset contains a significant amount of missing data. Thus, the first step consisted of imputing the missing features with reasonable values. Analysis of the raw data showed that there are a total of six different patterns of missing features. A pattern is characterized by a certain set of values missing in dimensions $M$ and values being present in dimensions $M'$ ($M+M' = 30$). For each pattern, a simple linear regression was fitted using the least-squares method with gradient descent, using the complete feature vectors $\boldsymbol{x_i}$ as training data. The optimized weight vector was then applied to the all the vectors with the same pattern of missing features $\boldsymbol{x}_{na,i}$ in order to predict the missing value.
+\begin{align*}
+{x}_{ij, j \in M} &\approx w_0 + \sum_{k \in M'} w_k {x}_{ik}\\
+\boldsymbol{w}^* = \underset{x}{argmin}\sum_i & ({x}_{ij, j \in M} - \boldsymbol{x}^T_{ik, k \in M'} \boldsymbol{w})^2\\
+{x}_{na,ij, j \in M} &= w_0 + \sum_{k \in M'} w_k {x}_{na,ik}
+\end{align*}   
+  
+
 \section*{Results}
 \section*{Conclusion}
 
