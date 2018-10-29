@@ -1,16 +1,14 @@
 """Script for data loading and missing value imputation"""
 #--------------------------------------
 # HEADER
-import sys
 import time
 import re
-
-sys.path.append('../')
 
 from methods.implementations import *
 from methods.proj1_helpers import *
 from helpers.custom_helpers import *
 
+# Set seed for random number generator
 np.random.seed(42)
 
 #--------------------------------------
@@ -44,9 +42,6 @@ test_x_unnorm[test_x_unnorm == -999] = np.nan
 test_x = (test_x_unnorm-features_mean)/features_stdev
 test_x[np.isnan(test_x)] = MISSING
 
-
-
-
 # For every observation create string with missing features
 missing_features = []
 missing_features_set = set()
@@ -78,8 +73,6 @@ for i in range(test_x.shape[0]):
 missing_features_test = np.array(missing_features_test)
 
 print("Test: " + str(len(missing_features_set_test)) + " different patterns of missing features.")
-
-
 
 # Create dummy variables for each pattern of missing observations
 missing_dummy = np.empty((n_obs, len(missing_features_set)))
@@ -177,15 +170,9 @@ for i in range(1, len(train_x_split)):
     tmp_rep[:, missing] = prediction_test
     final_test[missing_features_test == train_x_split_pattern[i], :] = tmp_rep
 
-
-
-
 # Bind final array
 final_plus_dummy = np.column_stack((final, missing_dummy))
 test_plus_dummy = np.column_stack((final_test, missing_dummy_test))
-
-
-
 
 # Save
 np.save("../imputed/final_plus_dummy.npy", final_plus_dummy)
@@ -194,18 +181,15 @@ np.save("../imputed/test_imputed.npy", test_plus_dummy)
 np.save("../imputed/y_train.npy", train_y)
 np.save("../imputed/ids_test.npy", test[2])
 
-
 # --------------------------------------
 # CROSS VALIDATION WITH SVM
-
 
 # Load data, expand to polynomials
 tx = np.load("../imputed/final_plus_dummy.npy")
 y = np.load("../imputed/y_train.npy")
 
-
 def x_expand(x):
-    x1 = x[:, :-6] #without dummy variables
+    x1 = x[:,:-6] #without dummy variables
     tx = np.empty([x1.shape[0],int(x1.shape[1]*(x1.shape[1]-1)/2)])
     k = 0
     for i in range(x1.shape[1]):
@@ -216,13 +200,28 @@ def x_expand(x):
     return np.c_[x, normalized[0]]
 
 
+# Expand to polynomial
 tx = x_expand(tx)
+# Add constant term
 tx = np.c_[np.ones(tx.shape[0]), tx]
 
 lambdaVec = np.logspace(-10, 0, base = 10, num = 50)
+
+# 10-fold cross validation
+n_iter = 1000
+gamma = 0.001
 best_acc, best_lambda = cross_validation(y, tx, 10, lambdaVec, "svm",
-                                         500000, 0.0001)
+                                         n_iter, gamma)
+final_fit, loss = svm_classification(y, tx, best_lambda, np.zeros([tx.shape[1]]), 10000000, 0.0001)
+
+# Predict on test
+test = np.load("../imputed/test_imputed.npy")
+
+test = x_expand(test)
+test = np.c_[np.ones(test.shape[0]), test]
+
+test_preds = predict_svm_outcome(test, final_fit)
+create_csv_submission(range(350000, 350000+test_preds.size), test_preds,
+                      "../submission/SVM_on_imputed_poly.csv")
 
 
-# --------------------------------------
-# BEST SUBSET SELECTION
