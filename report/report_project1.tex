@@ -90,6 +90,10 @@ The following graphs show the accuracies obtained during cross-validation. The b
 
 The fact that train and test accuracies are very similar and equally good for small $\lambda$ shows that overfitting does not occur. It is rather probable that the model underfits and more training iterations could still improve the results.
 
+\par
+% interpretation vo BSS
+Plot Number Accuracy vs no features (plotnr hie) suggests that around 15 features suffice for the model, adding additional features to the model leads to overfitting. However, recall that this plot was obtained by a less refined gradient descent than the final model. When we recreated a fit containing only 15 features with the refined gradient, the performance on the test set was worse than for the full model. This suggests that the overfitting phenomenon decreases as the SVM fit grows more precise.
+Plot Number HEATMAP shows that certain features are consistently included earlier into the model than others (WELI?), suggesting that they are much more important for the classifier than others. 
 \section*{Conclusion}
 We presented a classifier based on support vector machines and using polynomial basis expansions which outperformed all other classifiers examined in the scope of the project in terms of accuracy. However, only classifiers based on SVMs and logistic regression were assessed. A better performance may be achieved using other, more sophisticated classification models such as kernel SVMs, random forest or neural networks. 
 \par
