@@ -97,7 +97,11 @@ The models were evaluated and tuned using ten-fold cross validation. % Ds sött 
 
 %%% Comment on: overfit or underfit
 \section*{Conclusion}
-
+We presented a classifier based on support vector machines and using polynomial basis expansions which outperformed all other classifiers examined in the scope of the project in terms of accuracy. However, only classifiers based SVMs and logistic regression were assessed, a better performance may be achieved using other, more sophisticated classification models such as kernel SVMs, random forest or neural networks. 
+\par
+A downside of support vector machines is that they only output the class, but not a class probability. This makes it impossible to apply a more stringent cutoff for the detection of Higgs bosons in order to reduce the type I error. 
+\par
+Moreover, we assessed variable importance using forward-greedy best subset selection. (WAS GSEHT ME??? ) 
 %%% Bibliography
 \bibliographystyle{IEEEtran}
 \bibliography{literature-project1}
