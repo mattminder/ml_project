@@ -14,8 +14,8 @@ def linear_loss(y, tx, w):
 
 
 def logistic_prediction(tx, w):
-    "returns the logistic regression prediction based on the features and the \
-    trained weights"
+    "returns the logistic regression prediction (probability of being a Higgs \
+    boson based on the features and the trained weights"
     z = np.dot(tx,w)
     # Handle numerical problems (overflow and log(0))
     minimum = -np.log(np.finfo(z.dtype).max)
