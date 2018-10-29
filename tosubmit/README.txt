@@ -5,7 +5,7 @@ Authors: Matthias Minder, Zora Oswald, Silvan Stettler
 
 
 Execution: Run the run.py script in the folder src
-The root folder (where this readme is located) must contain a folder all which contains the two data files train.csv and test.csv.
+The root folder (where this readme is located) must contain a folder "all" which contains the two data files train.csv and test.csv, as obtained in the project handout.
 The submission SVM_on_imputed_poly.csv is created in the folder submission in the root folder.
 In order to not have to reexecute the whole code every time, an intermediate result (with the imputation of the missing values) is saved in a folder imputed in the root folder.
 
