@@ -47,18 +47,13 @@ However, by imputing missing values, the information about their underlying phys
 %{x}_{na,ij, j \in M} &= w_0 + \sum_{k \in M'} w_k {x}_{na,ik}
 %\end{align*} 
 \par
-% I finge da chönnt me no e besseri übrleitig mache, so im sinn vo aus nächsts heimer s fittet odr so
-Classifying the collision events comes down to finding a relationship between the continuous and independent inputs and a binary output describing the presence or absence of a Higgs boson. As seen in class, logistic regression lends itself well to this task and was thus the first model that we tested. 
-The probability that a Higgs boson is present is given by the sigmoid function
-\begin{align*}
-\sigma(z) &= \frac{1}{1+e^{-z}} \in [0,1]\\
-z & = \boldsymbol{Xw} 
-\end{align*}
-For values $\in (0.5,1]$, the collision is classified to have yielded a Higgs boson and assigned the label $1$. For values below $0.5$, the label $0$ is assigned respectively. A $L_2$-regularized cost function was used in order to avoid that the weight vector $\boldsymbol{w}$ tends to infinity.  
+Thereafter, two general model categories were fitted to the preprocessed data: $L_2$ regularized logistic regression and support vector machines.  
+\par
+The $L_2$ regularized logistic regression minimizes the following cost function.
 \begin{equation}
 \mathcal{L}(\boldsymbol{w}) = \sum_{n=1}^N ln(1+e^{\boldsymbol{x}^T\boldsymbol{w}}) - y_n \boldsymbol{x}^T\boldsymbol{w} + \frac{\lambda}{2}||\boldsymbol{w}||^2
 \end{equation}
-The above cost function was minimized using the stochastic gradient method. \par
+This cost function was minimized using the stochastic gradient method. \par
 The feature vector $\boldsymbol{X}$ in the above equations contains a constant term. In addition, the influence of enhancing the feature vector with the squares of each value was assessed. This enhanced feature vector has the form
 \begin{equation}
 \boldsymbol{x}_{enh.} = [1 \hspace{2mm} \boldsymbol{x}_n \hspace{2mm} \boldsymbol{x}_n^2]
