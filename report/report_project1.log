@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2017.1.5)  29 OCT 2018 15:27
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2017.1.5)  29 OCT 2018 15:57
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -392,7 +392,7 @@ File: accuracy_logistic.png Graphic file (type png)
 Package pdftex.def Info: accuracy_logistic.png used on input line 86.
 (pdftex.def)             Requested size: 227.64894pt x 151.76926pt.
 
-Underfull \vbox (badness 10000) has occurred while \output is active []
+Underfull \vbox (badness 3417) has occurred while \output is active []
 
 
 <accuracy_SVM.png, id=35, 433.62pt x 289.08pt>
@@ -401,7 +401,12 @@ File: accuracy_SVM.png Graphic file (type png)
 Package pdftex.def Info: accuracy_SVM.png used on input line 92.
 (pdftex.def)             Requested size: 227.64894pt x 151.76926pt.
 
-(./report_project1.bbl)
+(./report_project1.bbl
+Underfull \hbox (badness 7064) in paragraph at lines 104--2
+[]\OT1/ptm/m/n/10 Moreover, we as-sessed vari-able im-por-tance us-ing
+ []
+
+)
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -413,28 +418,28 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 105.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 109.
 [2pdfTeX warning (ext4): destination with the same identifier (name{figure.1}) 
 has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.105 \end{document}
+l.109 \end{document}
                     pdfTeX warning (ext4): destination with the same identifier
  (name{figure.2}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.105 \end{document}
+l.109 \end{document}
                      <./accuracy_logistic.png> <./accuracy_SVM.png>]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 105.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 109.
 
 (./report_project1.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 105.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 105.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 109.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 109.
 Package rerunfilecheck Info: File `report_project1.out' has not changed.
 (rerunfilecheck)             Checksum: A5C2655230D8C398CB40897B85AD5424;46.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 105.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 109.
  ) 
 Here is how much of TeX's memory you used:
  6726 strings out of 493014
@@ -460,7 +465,7 @@ e/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/
 exmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2016/texmf-dist/
 fonts/type1/urw/times/utmbi8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/typ
 e1/urw/times/utmr8a.pfb>
-Output written on report_project1.pdf (2 pages, 183458 bytes).
+Output written on report_project1.pdf (2 pages, 184794 bytes).
 PDF statistics:
  108 PDF objects out of 1000 (max. 8388607)
  84 compressed objects within 1 object stream
