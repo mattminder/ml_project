@@ -57,11 +57,11 @@ If the output is predicted on the right side of the hyperplane, meaning that $sg
 \par
 The feature vector $\boldsymbol{X}$ that was used as input for both models contains a constant and polynomial basis expansion (degree 2) terms so that
 \begin{equation}
-\boldsymbol{x}_{enh.} = [1 \hspace{2mm} \boldsymbol{x}_n \hspace{2mm} x_ni x_nj] \hspace{5mm} i \in dim(\boldsymbol{x}_n), j < i
+\boldsymbol{x}_{enh.} = [1 \hspace{2mm} \boldsymbol{x}_n \hspace{2mm} x_{ni} x_{nj}] \hspace{5mm} i \in dim(\boldsymbol{x}_n), j < i
 \end{equation}
 Both $L_2$-regularized logistic regression and SVM depend on a hyperparameter which controls the penalization of false classification. This parameter was chosen to maximize accuracy, as determined in ten-fold cross-validation. The different classification methods were compared in terms of their achieved accuracy on an independent test set. 
 \par
-In order to gain insight into the decision making process of our classifier, a forward-greedy best subset selection was performed. The training set was randomly split into a training and a validation set containing $80\%$ and $20\%$ of the original training data respectively. Then, starting with an empty model (containing no features), the following procedure was repeated: 
+In order to gain insight into the decision making process of our classifier, a forward-greedy best subset selection (BSS) was performed. The training set was randomly split into a training and a validation set containing $80\%$ and $20\%$ of the original training data respectively. Then, starting with an empty model (containing no features), the following procedure was repeated: 
 \begin{enumerate}
 	\item For every feature not yet in the model, the model plus that respective feature was fitted to the training set.
 	\item The accuracy of every fit was assessed on the validation set.  
@@ -76,19 +76,24 @@ The following graphs show the accuracies obtained during cross-validation. The b
 	\caption{Reg. logistic regression and SVM 10-fold cross-validation. Gradient descent with 100000 iterations, $\gamma$ = 0.001}
 \end{figure}
 
-The fact that train and test accuracies are very similar and equally good for small $\lambda$ indicate that overfitting does not occur. It is rather probable that the model underfits and more training iterations could still improve the results. Moreover, there is no significant difference between the performance of logistic regression or support vector machines. This could be explained by the fact that both classifiers use linear boundaries.
+The fact that train and test accuracies are very similar and equally good for small $\lambda$ indicate that overfitting does not occur. It is rather probable that the model underfits and more training iterations could still improve the results. Moreover, there is no significant difference between the performance of logistic regression or support vector machines. This could be explained by the fact that both classifiers use linear decision boundaries.
 \par
 % interpretation vo BSS
-Plot Number Accuracy vs no features (plotnr hie) suggests that around 15 features suffice for the model, adding additional features to the model leads a lower accuracy. This could suggest that the omitted variables are very noisy and thus only deteriorate the accuracy of the classification.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.35\textwidth]{accuracy_plot.pdf}
+	\caption{Mean accuracy for a given number of features in BSS with SVM, over 10 repetitions. $\lambda = 5 \cdot 10^{-8}$, $\gamma = 0.01$, 5000 iterations for gradient descent.}
+\end{figure}
+Figure 2 shows the accuracy depending on the amount of features included in the BSS. 15 features suffice for the model, while adding additional features to the model leads a lower accuracy likely due to overfitting. This suggests that the omitted variables are noisy and thus only deteriorate classifier accuracy.
 %%% Verbessere 
-However, recall that this plot was obtained by a less refined gradient descent than the final model. When we recreated a fit containing only 15 features with the refined gradient, the performance on the test set was worse than for the full model. This suggests that the overfitting phenomenon decreases as the SVM fit grows more precise.
-Plot Number HEATMAP shows that certain features are consistently included earlier into the model than others (WELI?), suggesting that they are much more important for the classifier than others. 
+However, for computational reasons this plot was obtained using a gradient descent with decreased precision. A model fitted consisting only the 15 most important features as determined by BSS was fitted with a more refined gradient descent method (data not shown). However, this model performed worse on the test set than the full model, suggesting that the overfitting phenomenon decreases as the SVM fit grows more precise.
+Moreover, BSS showed that certain features are consistently included earlier into the model than others, suggesting that they are much more important for the classifier than others. 
 \section*{Conclusion}
 We presented classifiers based on logistic regression and support vector machines and using polynomial basis expansions. In terms of accuracy, the performance of both classifiers is similar and rather poor. However, only classifiers based on SVMs and logistic regression were assessed. A better performance may be achieved using other, more sophisticated classification models such as kernel SVMs, random forest or neural networks. 
 \par
 A downside of support vector machines is that they only output the class, but not a class probability. This makes it impossible to apply a more stringent cutoff for the detection of Higgs bosons in order to reduce the type I error. 
 \par
-Moreover, we assessed variable importance using forward-greedy best subset selection. (WAS GSEHT ME??? ) 
+Moreover, we assessed variable importance using forward-greedy BSS. (WAS GSEHT ME??? ) 
 %%% Bibliography
 \bibliographystyle{IEEEtran}
 \bibliography{literature-project1}
