@@ -6,7 +6,7 @@ import re
 
 from methods.implementations import *
 from methods.proj1_helpers import *
-from helpers.custom_helpers import *
+from methods.custom_helpers import *
 
 # Set seed for random number generator
 np.random.seed(42)

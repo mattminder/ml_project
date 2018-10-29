@@ -1,6 +1,6 @@
 # APPLIES BEST SUBSET SELECTION TO POLY-EXPANDED SVM MODEL
 from methods.implementations import *
-from helpers.custom_helpers import *
+from methods.custom_helpers import *
 import numpy as np
 import time
 # -------------------------------
