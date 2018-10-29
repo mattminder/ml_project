@@ -70,17 +70,17 @@ In addition to logistic regression, the collisions were classified with a Suppor
 \end{equation}  
 If the output is predicted on the right side of the hyperplane, meaning that $sgn(y_i) = sgn(\boldsymbol{x}_n^T\boldsymbol{w})$, then that particular observation does not contribute to the loss. Points on the wrong side of the hyperplane or too close to the hyperplane contribute, however. Therefore, the gradient of the hinge loss $\nabla \mathcal{L}$ either takes the value $\boldsymbol{0}$ or $-y_n\boldsymbol{x_n}$ plus the contribution of the penalty function $\lambda \boldsymbol{w}$. This expression for the gradient was used in order to minimize the SVM cost function by stochastic gradient descent.
 \par
-Both $L_2$-regularized logistic regression and SVM depend on a hyperparameter which controls the penalization of false classification. This parameter was chosen to maximize accuracy, as determined in ten-fold cross-validation. Different classification methods were compared in terms of their achieved accuracy on an independent test set. % Wiviu observations im training und test set?  Ds sött me sowieso no irgendwo la drifliesse
+Both $L_2$-regularized logistic regression and SVM depend on a hyperparameter which controls the penalization of false classification. This parameter was chosen to maximize accuracy, as determined in ten-fold cross-validation. The different classification methods were compared in terms of their achieved accuracy on an independent test set. % Wiviu observations im training und test set?  Ds sött me sowieso no irgendwo la drifliesse
 \par
-In order to gain insight into the decision making process of our classifier, a forward-greedy best subset selection was performed. The training set was randomly split into a training and a validation set containing $80\%$ and $20\%$ of the original training data respectively. Then, starting with an empty model (containing no features), the following was procedure was repeated: 
+In order to gain insight into the decision making process of our classifier, a forward-greedy best subset selection was performed. The training set was randomly split into a training and a validation set containing $80\%$ and $20\%$ of the original training data respectively. Then, starting with an empty model (containing no features), the following procedure was repeated: 
 \begin{enumerate}
 	\item For every feature not yet in the model, the model plus that respective feature was fitted to the training set.
 	\item The accuracy of every fit was assessed on the validation set.  
 	\item The feature, including which the greatest accuracy was obtained, was included into the model.
 \end{enumerate}
-These three steps were iterated until the full model was obtained. This allows to obtain an importance ordering for the variables. The process was repeated ten times to assess result stability. Furthermore, the dummy variables were disregarded during this process in order to obtain an importance ordering of the original data. Finally, for performance reasons, the gradient descent method was run with less iterations and a larger step size.
+These three steps were repeated until the full model was obtained. This allows to obtain an importance ordering for the variables. The process was repeated ten times to assess result stability. Furthermore, the dummy variables were disregarded during this process in order to obtain an importance ordering of the original data. Finally, for performance reasons, the gradient descent method was run with less iterations and a larger step size.
 \section*{Results}
-The models were evaluated and tuned using ten-fold cross validation. % Ds sött id methode nach mir (=mättu)
+The following graphs show the accuracies obtained during cross-validation. The best results were obtained with enhanced data, SVM and $\lambda$ smaller than 10\textsuperscript{-3}.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.45\textwidth]{accuracy_logistic.png}
@@ -93,11 +93,10 @@ The models were evaluated and tuned using ten-fold cross validation. % Ds sött 
 	\caption{10000 iterations, $\gamma$ = 0.001}
 \end{figure}
 
-%%% TODO: same for SVM
+The fact that train and test accuracies are very similar and equally good for small $\lambda$ shows that overfitting does not occur. It is rather probable that the model underfits and more training iterations could still improve the results.
 
-%%% Comment on: overfit or underfit
 \section*{Conclusion}
-We presented a classifier based on support vector machines and using polynomial basis expansions which outperformed all other classifiers examined in the scope of the project in terms of accuracy. However, only classifiers based SVMs and logistic regression were assessed, a better performance may be achieved using other, more sophisticated classification models such as kernel SVMs, random forest or neural networks. 
+We presented a classifier based on support vector machines and using polynomial basis expansions which outperformed all other classifiers examined in the scope of the project in terms of accuracy. However, only classifiers based on SVMs and logistic regression were assessed. A better performance may be achieved using other, more sophisticated classification models such as kernel SVMs, random forest or neural networks. 
 \par
 A downside of support vector machines is that they only output the class, but not a class probability. This makes it impossible to apply a more stringent cutoff for the detection of Higgs bosons in order to reduce the type I error. 
 \par
