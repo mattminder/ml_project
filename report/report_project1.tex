@@ -68,11 +68,17 @@ In addition to logistic regression, the collisions were classified with a Suppor
 \begin{equation}
 \mathcal{L}(\boldsymbol{w}) = C \sum_{n=1}^N max(0,1-y_n \boldsymbol{x}_n^T\boldsymbol{w}) + \frac{1}{2}||\boldsymbol{w}||^2 \hspace{5mm} y_i \in {-1,1}
 \end{equation}  
-If the output is predicted on the right side of the hyperplane, meaning that $sgn(y_i) = sgn(\boldsymbol{x}_n^T\boldsymbol{w})$, then that particular observation does not contribute to the loss. Points on the wrong side of the hyperplane or too close to the hyperplane contribute, however. Therefore, the gradient of the hinge loss $\nabla \mathcal{L}$ either takes the value $\boldsymbol{0}$ or $-y_n\boldsymbol{x_n}$ plus the contribution of the penalty function $\lambda \boldsymbol{w}$. This expression for the gradient was used in order to minimize the SVM cost function by stochastic gradient descent.  
+If the output is predicted on the right side of the hyperplane, meaning that $sgn(y_i) = sgn(\boldsymbol{x}_n^T\boldsymbol{w})$, then that particular observation does not contribute to the loss. Points on the wrong side of the hyperplane or too close to the hyperplane contribute, however. Therefore, the gradient of the hinge loss $\nabla \mathcal{L}$ either takes the value $\boldsymbol{0}$ or $-y_n\boldsymbol{x_n}$ plus the contribution of the penalty function $\lambda \boldsymbol{w}$. This expression for the gradient was used in order to minimize the SVM cost function by stochastic gradient descent.
 \par
 Both $L_2$-regularized logistic regression and SVM depend on a hyperparameter which controls the penalization of false classification. This parameter was chosen to maximize accuracy, as determined in ten-fold cross-validation. Different classification methods were compared in terms of their achieved accuracy on an independent test set. % Wiviu observations im training und test set?  Ds sött me sowieso no irgendwo la drifliesse
 \par
-%%% BEST SUBSET SELECTION
+In order to gain insight into the decision making process of our classifier, a forward-greedy best subset selection was performed. The training set was randomly split into a training and a validation set containing $80\%$ and $20\%$ of the original training data respectively. Then, starting with an empty model (containing no features), the following was procedure was repeated: 
+\begin{enumerate}
+	\item For every feature not yet in the model, the model plus that respective feature was fitted to the training set.
+	\item The accuracy of every fit was assessed on the validation set.  
+	\item The feature, including which the greatest accuracy was obtained, was included into the model.
+\end{enumerate}
+These three steps were iterated until the full model was obtained. This allows to obtain an importance ordering for the variables. The process was repeated ten times to assess result stability. Furthermore, the dummy variables were disregarded during this process in order to obtain an importance ordering of the original data. Finally, for performance reasons, the gradient descent method was run with less iterations and a larger step size.
 \section*{Results}
 The models were evaluated and tuned using ten-fold cross validation. % Ds sött id methode nach mir (=mättu)
 \begin{figure}[H]
