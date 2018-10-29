@@ -18,17 +18,16 @@
 \maketitle
 
 \begin{abstract}
-
+Collision events in the Large Hadron Collider at CERN do not create directly observable results. An essential part of elementary particles such as the Higgs boson therefore rely on classifying the collisions based on a number of variables that can be measured in the collider. For that purpose, a logistic regression and a support vector machine classifier were trained and cross-validated. Using the support vector machine classifier, the presence of a Higgs boson could be accurately predicted in \% of the cases.  
 \end{abstract}
 
-\section*{Introduction}
-Collision events in the Large Hadron Collider at CERN do not create directly observable results. An essential part of elementary particles such as the Higgs boson therefore rely on classifying the collisions based on a number of variables that can be measured in the collider. 
-In our dataset, a vector containing 30 dimensions describes one collision event. A binary classification algorithm can be used to predict the presence of a Higgs boson based on this feature vector. The model is trained with data from collisions for which the existence of a Higgs boson is determined.
+\section*{Introduction} 
+In our dataset, a vector containing 30 dimensions describes one collision event. A binary classification algorithm can be used to predict the presence of a Higgs boson based on this feature vector. The model is trained with data from collisions for which the existence of a Higgs boson is determined. The training data-set contains 250000 collisions.
 Our classifications of the collision events consist of three main steps:
 \begin{enumerate}
 \item Normalization and imputation of missing data 
 \item Parameter optimization using cross-validation
-\item Predictions on test data using the best-fitting binary model 
+\item Predictions on test data made up of 568238 collisions using the best-fitting binary model 
 \end{enumerate}
 Furthermore, the importance of variables for the final model was assessed using best subset selection.
 \section*{Methods}
@@ -76,7 +75,9 @@ The following graphs show the accuracies obtained during cross-validation. The b
 	\caption{Reg. logistic regression and SVM 10-fold cross-validation. Gradient descent with 100000 iterations, $\gamma$ = 0.001}
 \end{figure}
 
-The fact that train and test accuracies are very similar and equally good for small $\lambda$ indicate that overfitting does not occur. It is rather probable that the model underfits and more training iterations could still improve the results. Moreover, there is no significant difference between the performance of logistic regression or support vector machines. This could be explained by the fact that both classifiers use linear decision boundaries.
+
+The fact that train and test accuracies are very similar and equally good for small $\lambda$ indicate that overfitting does not occur. It is rather probable that the model underfits and more training iterations could still improve the results. Moreover, there is no significant difference between the performance of logistic regression or support vector machines. This could be explained by the fact that both classifiers use linear boundaries which might not be adapted to our data-set. Both models produce a proportion of misclassified collisions that would usually be deemed to be unacceptably high \cite{advice}, which further hints that both models are not the best choice with our dataset.
+
 \par
 % interpretation vo BSS
 \begin{figure}[H]
@@ -89,7 +90,7 @@ Figure 2 shows the accuracy depending on the amount of features included in the 
 However, for computational reasons this plot was obtained using a gradient descent with decreased precision. A model fitted consisting only the 15 most important features as determined by BSS was fitted with a more refined gradient descent method (data not shown). However, this model performed worse on the test set than the full model, suggesting that the overfitting phenomenon decreases as the SVM fit grows more precise.
 Moreover, BSS showed that certain features are consistently included earlier into the model than others, suggesting that they are much more important for the classifier than others. 
 \section*{Conclusion}
-We presented classifiers based on logistic regression and support vector machines and using polynomial basis expansions. In terms of accuracy, the performance of both classifiers is similar and rather poor. However, only classifiers based on SVMs and logistic regression were assessed. A better performance may be achieved using other, more sophisticated classification models such as kernel SVMs, random forest or neural networks. 
+We presented classifiers based on logistic regression and support vector machines and using polynomial basis expansions. In terms of accuracy, the performance of both classifiers is similar and relatively poor. However, only classifiers based on SVMs and logistic regression with linear boundaries were assessed. A better performance may be achieved using other, more sophisticated classification models such as kernel SVMs, random forest or neural networks. 
 \par
 A downside of support vector machines is that they only output the class, but not a class probability. This makes it impossible to apply a more stringent cutoff for the detection of Higgs bosons in order to reduce the type I error. 
 \par
