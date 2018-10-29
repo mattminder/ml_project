@@ -18,7 +18,7 @@
 \maketitle
 
 \begin{abstract}
-%%% abstract here
+
 \end{abstract}
 
 \section*{Introduction}
@@ -48,8 +48,6 @@ However, by imputing missing values, the information about their underlying phys
 %\end{align*} 
 \par
 Thereafter, two general model categories were fitted to the preprocessed data: $L_2$ regularized logistic regression and support vector machines. Gradient descent was used to minimize the cost function for $L_2$ regularized logistic regression that was shown in class.
- \par
-
 \par
 In addition to logistic regression, the collisions were classified with a Support Vector Machine (SVM) method. The basic idea behind SVM methods is to find a hyperplane that separates the data-set into two classes. This can be achieved by minimizing a cost function based on hinge loss \cite{SVM_ref}.
 \begin{equation}
@@ -71,21 +69,22 @@ In order to gain insight into the decision making process of our classifier, a f
 \end{enumerate}
 These three steps were repeated until the full model was obtained. This allows to obtain an importance ordering for the variables. The process was repeated ten times to assess result stability. Furthermore, the dummy variables were disregarded during this process in order to obtain an importance ordering of the original data. Finally, for performance reasons, the gradient descent method was run with less iterations and a larger step size.
 \section*{Results}
-The following graphs show the accuracies obtained during cross-validation. The best results were obtained with enhanced data and $\lambda$ smaller than 10\textsuperscript{-3}. There is no significant difference between the performance of logistic regression or support vector machines. 
+The following graphs show the accuracies obtained during cross-validation. The best results were obtained with enhanced data and $\lambda$ smaller than 10\textsuperscript{-3}. 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.45\textwidth]{accuracy_log_and_SVM.png}
 	\caption{Reg. logistic regression and SVM 10-fold cross-validation. Gradient descent with 100000 iterations, $\gamma$ = 0.001}
 \end{figure}
 
-The fact that train and test accuracies are very similar and equally good for small $\lambda$ shows that overfitting does not occur. It is rather probable that the model underfits and more training iterations could still improve the results. Our submissions on Kaggle however showed that SVM performed better on the test set.
-
+The fact that train and test accuracies are very similar and equally good for small $\lambda$ indicate that overfitting does not occur. It is rather probable that the model underfits and more training iterations could still improve the results. Moreover, there is no significant difference between the performance of logistic regression or support vector machines. This could be explained by the fact that both classifiers use linear boundaries.
 \par
 % interpretation vo BSS
-Plot Number Accuracy vs no features (plotnr hie) suggests that around 15 features suffice for the model, adding additional features to the model leads to overfitting. However, recall that this plot was obtained by a less refined gradient descent than the final model. When we recreated a fit containing only 15 features with the refined gradient, the performance on the test set was worse than for the full model. This suggests that the overfitting phenomenon decreases as the SVM fit grows more precise.
+Plot Number Accuracy vs no features (plotnr hie) suggests that around 15 features suffice for the model, adding additional features to the model leads a lower accuracy. This could suggest that the omitted variables are very noisy and thus only deteriorate the accuracy of the classification.
+%%% Verbessere 
+However, recall that this plot was obtained by a less refined gradient descent than the final model. When we recreated a fit containing only 15 features with the refined gradient, the performance on the test set was worse than for the full model. This suggests that the overfitting phenomenon decreases as the SVM fit grows more precise.
 Plot Number HEATMAP shows that certain features are consistently included earlier into the model than others (WELI?), suggesting that they are much more important for the classifier than others. 
 \section*{Conclusion}
-We presented a classifier based on support vector machines and using polynomial basis expansions which outperformed all other classifiers examined in the scope of the project in terms of accuracy. However, only classifiers based on SVMs and logistic regression were assessed. A better performance may be achieved using other, more sophisticated classification models such as kernel SVMs, random forest or neural networks. 
+We presented classifiers based on logistic regression and support vector machines and using polynomial basis expansions. In terms of accuracy, the performance of both classifiers is similar and rather poor. However, only classifiers based on SVMs and logistic regression were assessed. A better performance may be achieved using other, more sophisticated classification models such as kernel SVMs, random forest or neural networks. 
 \par
 A downside of support vector machines is that they only output the class, but not a class probability. This makes it impossible to apply a more stringent cutoff for the detection of Higgs bosons in order to reduce the type I error. 
 \par
